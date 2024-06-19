@@ -14,7 +14,7 @@ module.exports = {
   },
   AWS_CREDENTIALS: {
     ACCESS_KEY_ID: credentials.accessKeyId,
-    SECRET_ACCESS_KEY: credentials.secretAccessKey,
+    SECRET_ACCESS_KEY: "b3xgn7pFBIFixEfDvHhxMFacOhdww950MmxLvolV",
     REGION: credentials.region,
     BUCKET: credentials.bucket,
     FILESIZE: credentials.fileSize,
