@@ -3,6 +3,37 @@ require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 const logger = require("loglevel");
 const constant = require("../config/constant");
 
+const bcrypt = require("bcryptjs");
+
+const generatePasswordHash = async (plainPassword) => {
+  let salt = bcrypt.genSaltSync(11);
+  return bcrypt.hashSync(plainPassword, salt);
+};
+
+const comparePasswordHash = async (plainPassword, hash) => {
+  return bcrypt.compareSync(plainPassword, hash);
+};
+
+const isPasswordStrong = (password) => {
+  const schema = new passwordValidator();
+
+  schema
+    .is()
+    .min(8)
+    .has()
+    .uppercase()
+    .has()
+    .lowercase()
+    .has()
+    .digits()
+    .has()
+    .symbols()
+    .not()
+    .spaces();
+
+  return schema.validate(password);
+};
+
 const fileUpload = async (images) => {
   try {
     const uploadedLocations = [];
@@ -58,4 +89,7 @@ const fileUpload = async (images) => {
 
 module.exports = {
   fileUpload,
+  generatePasswordHash,
+  comparePasswordHash,
+  isPasswordStrong,
 };

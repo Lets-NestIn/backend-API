@@ -6,8 +6,10 @@ class Routes {
   }
 
   /* creating app Routes starts */
+
   appRoutes() {
     this.app.use(constant.BASE_URL, trimRequest.all, require("./property"));
+    this.app.use(constant.BASE_URL, trimRequest.all, require("./user"));
   }
 
   routesConfig() {

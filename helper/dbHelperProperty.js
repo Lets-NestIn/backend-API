@@ -9,8 +9,11 @@ const { default: mongoose } = require("mongoose");
 
 const registerProperty = async (options) => {
   try {
-    let imagesData;
+    if (options.role !== "ADMIN" && options.role !== "SELLER") {
+      throw message.error.forbidden;
+    }
 
+    let imagesData;
     if (options.images) {
       imagesData = await fileUpload(options.images);
     }
@@ -34,6 +37,7 @@ const registerProperty = async (options) => {
       amenities: options.amenities,
       images: imagesData,
       agentId: options.agentId,
+      ownerId: options.userId,
       status: options.status,
       floor: options.floor,
       sellingFloor: options.sellingFloor,
@@ -98,19 +102,29 @@ const getAllProperty = async (propertyId) => {
 
     return property;
   } catch (e) {
-    logger.error(`dbHelperProperty ------> getPropertyById: ${propertyId}`, e);
+    logger.error(`dbHelperProperty ------> getALL: ${propertyId}`, e);
     throw e;
   }
 };
 
-const deleteProperty = async (propertyId) => {
+const deleteProperty = async (options) => {
   try {
-    const deletedProperty = await dbInstance.deleteDocumentByQuery(
-      COLLECTIONS.PROPERTY_COLLECTION,
-      { _id: new mongoose.Types.ObjectId(propertyId._id) }
-    );
+    let deletedProperty;
 
-    if (!deletedProperty) {
+    if (options.role === "ADMIN") {
+      deletedProperty = await dbInstance.deleteDocumentByQuery(
+        COLLECTIONS.PROPERTY_COLLECTION,
+        { _id: new mongoose.Types.ObjectId(options._id) }
+      );
+    } else if (options.role === "SELLER") {
+      deletedProperty = await dbInstance.deleteDocumentByQuery(
+        COLLECTIONS.PROPERTY_COLLECTION,
+        {
+          _id: new mongoose.Types.ObjectId(options._id),
+          ownerId: new mongoose.Types.ObjectId(options.userId),
+        }
+      );
+    } else {
       throw new Error("Property not found");
     }
 
