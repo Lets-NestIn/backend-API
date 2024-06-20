@@ -11,6 +11,7 @@ router.post("/register", uploads.any(), userController.registerUser);
 router.post("/login", userController.loginUser);
 router.get("/checktoken", verifyAccessToken);
 // router.get("/user/:_id", userController.getUserById);
+router.get("/users/property/:id", userController.GetListOfUsersByPropertyId);
 
 router.put("/user/:_id", checkToken, uploads.any(), userController.updateUser);
 

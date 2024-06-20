@@ -443,6 +443,26 @@ const usersList = async () => {
   }
 };
 
+const getListOfUsersByPropertyIdHelper = async (propertyId) => {
+  try {
+    const userInfo = await dbInstance.getUsersByPropertyId(
+      COLLECTIONS.USER_COLLECTION,
+      { _id: new mongoose.Types.ObjectId(propertyId) }
+    );
+
+    !userInfo
+      ? (() => {
+          throw message.error.USER_NOT_FOUND;
+        })()
+      : null;
+
+    return userInfo;
+  } catch (e) {
+    logger.error("userAuthHelper------>GetListOfUsersByPropertyIdHelper", e);
+    throw e;
+  }
+};
+
 module.exports = {
   registerUser,
   userLogin,
@@ -454,4 +474,5 @@ module.exports = {
   generateNewTokens,
   usersList,
   updateUser,
+  getListOfUsersByPropertyIdHelper,
 };

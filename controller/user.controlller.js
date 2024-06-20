@@ -73,9 +73,29 @@ const updateUser = async (req, res) => {
     return _handleResponse(req, res, e, null);
   }
 };
+const GetListOfUsersByPropertyId = async (req, res) => {
+  try {
+    const response = await dbHelperUser.getListOfUsersByPropertyIdHelper(
+      req.params.id
+    );
+
+    return _handleResponseWithMessage(
+      req,
+      res,
+      null,
+      "User fetched successfully",
+      response,
+      201
+    );
+  } catch (e) {
+    logger.error("ERROR ::: GetListOfUsersByPropertyId ::: ", e);
+    return _handleResponse(req, res, e, null);
+  }
+};
 
 module.exports = {
   registerUser,
   loginUser,
   updateUser,
+  GetListOfUsersByPropertyId,
 };

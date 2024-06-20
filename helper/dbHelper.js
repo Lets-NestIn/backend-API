@@ -73,6 +73,32 @@ class DbHelper {
     }
   }
 
+  async getUsersByPropertyId(collection, id) {
+    try {
+      console.log("id=========>", id);
+      let Model;
+      switch (collection) {
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
+          break;
+        default:
+          throw message.error.INVALID_COLLECTION_NAME;
+      }
+
+      await this.connect();
+
+      const response = await Model.find({
+        favouritePropertiesId: { $in: id._id },
+      });
+      console.log("response==========>", response);
+
+      return response;
+    } catch (e) {
+      logger.error("DbHelper Error while getDocument ::: ", e);
+      throw e;
+    }
+  }
+
   async getDocumentByQueryDetails(collection, query) {
     try {
       let Model;
