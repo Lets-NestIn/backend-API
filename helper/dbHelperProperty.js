@@ -107,6 +107,38 @@ const getAllProperty = async (propertyId) => {
   }
 };
 
+const calculatePriceHelper = async (options) => {
+  try {
+    console.log("options", options);
+    const tax = (options.taxRate / 100) * options.loanAmount;
+
+    // Total amount after initial payment and tax
+    const totalAmount = options.loanAmount + tax - options.initialPayment;
+
+    // Monthly interest rate
+    const monthlyInterestRate = options.interestRate / 100 / 12;
+
+    // Total number of payments (months)
+    const numberOfPayments = options.loanTermYears * 12;
+
+    // Monthly payment calculation using the formula for an annuity
+    const monthlyPayment =
+      (totalAmount * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+
+    const result = {
+      totalAmount,
+      monthlyPayment,
+      numberOfPayments,
+    };
+
+    return result;
+  } catch (e) {
+    logger.error(`dbHelperProperty ------> getALL: `, e);
+    throw e;
+  }
+};
+
 const deleteProperty = async (options) => {
   try {
     let deletedProperty;
@@ -222,4 +254,5 @@ module.exports = {
   deleteProperty,
   getAllProperty,
   updateProperty,
+  calculatePriceHelper,
 };

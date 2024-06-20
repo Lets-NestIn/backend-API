@@ -50,6 +50,18 @@ const getAllProperty = async (req, res) => {
   }
 };
 
+const calculatePrice = async (req, res) => {
+  try {
+    let options = await dataValidator.validateCalcPrice(req.body);
+    const response = await dbHelperProperty.calculatePriceHelper(options);
+
+    return _handleResponseWithMessage(req, res, null, "Success", response, 200);
+  } catch (e) {
+    logger.error("ERROR ::: calculatePrice ::: ", e);
+    return _handleResponse(req, res, e, null);
+  }
+};
+
 const getPropertyById = async (req, res) => {
   try {
     let options = await dataValidator.validateGetPropertyById(req.params);
@@ -126,4 +138,5 @@ module.exports = {
   getPropertyById,
   deletePropertyById,
   updateProperty,
+  calculatePrice,
 };
