@@ -10,7 +10,8 @@ const uploads = multer();
 router.post("/register", uploads.any(), userController.registerUser);
 router.post("/login", userController.loginUser);
 router.get("/checktoken", verifyAccessToken);
-// router.get("/user/:_id", userController.getUserById);
+router.get("/user/:_id", checkToken, userController.getUserInfo);
+router.get("/users", checkToken, userController.usersList);
 
 router.put("/user/:_id", checkToken, uploads.any(), userController.updateUser);
 

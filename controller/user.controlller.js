@@ -74,8 +74,42 @@ const updateUser = async (req, res) => {
   }
 };
 
+const getUserInfo = async (req, res) => {
+  try {
+    const tokenvalue = req.header("Authorization");
+    const decoded = jwt_decoder.jwtDecode(tokenvalue);
+    const data = { userId: decoded.userId, reqUserId: req.params._id };
+    const response = await dbHelperUser.getUserInfoHelper(data);
+    return _handleResponseWithMessage(
+      req,
+      res,
+      null,
+      message.success.GET_USER_INFO,
+      response,
+      200
+    );
+  } catch (e) {
+    logger.error("ERROR ::: get user info ::: ", e);
+    return _handleResponse(req, res, e, null);
+  }
+};
+
+const usersList = async (req, res) => {
+  try {
+    const tokenvalue = req.header("Authorization");
+    const decoded = jwt_decoder.jwtDecode(tokenvalue);
+    const response = await dbHelperUser.usersList(decoded.role);
+    return _handleResponseWithMessage(req, res, null, "Success", response, 200);
+  } catch (e) {
+    logger.error("ERROR ::: usersList ::: ", e);
+    return _handleResponse(req, res, e, null);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   updateUser,
+  getUserInfo,
+  usersList,
 };

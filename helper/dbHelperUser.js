@@ -350,6 +350,7 @@ const changePasswordHelper = async (options) => {
 
 const getUserInfoHelper = async (token) => {
   try {
+    console.log("token", token);
     token.userId !== token.reqUserId
       ? (() => {
           throw message.error.INVALID_USER;
@@ -423,8 +424,12 @@ let generateNewTokens = async (options) => {
   }
 };
 
-const usersList = async () => {
+const usersList = async (options) => {
   try {
+    console.log("options", options);
+    if (options !== "ADMIN") {
+      throw message.error.forbidden;
+    }
     const userInfo = await dbInstance.findall(COLLECTIONS.USER_COLLECTION);
     if (userInfo.length > 1) {
       return {

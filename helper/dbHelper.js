@@ -164,6 +164,26 @@ class DbHelper {
       throw e;
     }
   }
+
+  async wishlistProperty(id) {
+    try {
+      const property = await UserModel.aggregate([
+        {
+          $unwind: {
+            path: "$favouritePropertiesId",
+          },
+        },
+        {
+          $match: {
+            favouritePropertiesId: id,
+          },
+        },
+      ]);
+      return property;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
 
 module.exports = {

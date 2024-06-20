@@ -15,6 +15,10 @@ router.post(
 );
 router.get("/property", propertyController.getAllProperty);
 router.get("/property/:_id", propertyController.getPropertyById);
+router.get(
+  "/wishlistproperty/:_id",
+  propertyController.getWishlistPropertyById
+);
 router.delete(
   "/property/:_id",
   checkToken,
@@ -22,6 +26,7 @@ router.delete(
 );
 router.put(
   "/property/:propertyId",
+  checkToken,
   uploads.any(),
   propertyController.updateProperty
 );
