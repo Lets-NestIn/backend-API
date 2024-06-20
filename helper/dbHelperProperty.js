@@ -6,8 +6,6 @@ const message = require("../config/messages");
 const constant = require("../config/constant");
 const { fileUpload, invokeLambda } = require("../helper/helperFunction");
 const { default: mongoose } = require("mongoose");
-const { UserModel } = require("../models/user");
-const { ObjectId } = mongoose.Types;
 
 const registerProperty = async (options) => {
   try {
@@ -191,11 +189,17 @@ const updateProperty = async (propertyId, options) => {
       propertyObj
     );
 
-    console.log("propertyObj=======>", propertyObj);
+    const userInfo = await dbInstance.getUsersByPropertyId(
+      COLLECTIONS.USER_COLLECTION,
+      // { _id: new mongoose.Types.ObjectId(propertyId) }
+      propertyId
+    );
+
+    const userEmail = userInfo.map((data) => data.email);
 
     const eventPayload = {
       body: JSON.stringify({
-        recipientEmails: ["daljeet.kumar@kibalabs.in"],
+        recipientEmails: userEmail,
         updatedFields: propertyObj,
       }),
     };
@@ -212,26 +216,10 @@ const updateProperty = async (propertyId, options) => {
   }
 };
 
-const getWishlistPropertyById = async (propertyId) => {
-  try {
-    console.log("iii", propertyId);
-    const property = await dbInstance.wishlistProperty(propertyId._id);
-    if (property.length < 1) {
-      throw new Error("This Property is not in wishlist of any user");
-    }
-
-    return property;
-  } catch (e) {
-    logger.error(`dbHelperProperty ------> getPropertyById: ${propertyId}`, e);
-    throw e;
-  }
-};
-
 module.exports = {
   registerProperty,
   getPropertyById,
   deleteProperty,
   getAllProperty,
   updateProperty,
-  getWishlistPropertyById,
 };

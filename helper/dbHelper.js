@@ -73,6 +73,30 @@ class DbHelper {
     }
   }
 
+  async getUsersByPropertyId(collection, id) {
+    try {
+      let Model;
+      switch (collection) {
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
+          break;
+        default:
+          throw message.error.INVALID_COLLECTION_NAME;
+      }
+
+      await this.connect();
+
+      const response = await Model.find({
+        favouritePropertiesId: { $in: id },
+      });
+
+      return response;
+    } catch (e) {
+      logger.error("DbHelper Error while getDocument ::: ", e);
+      throw e;
+    }
+  }
+
   async getDocumentByQueryDetails(collection, query) {
     try {
       let Model;
@@ -161,26 +185,6 @@ class DbHelper {
       return response;
     } catch (e) {
       logger.error("DbHelper Error while getDocument ::: ", e);
-      throw e;
-    }
-  }
-
-  async wishlistProperty(id) {
-    try {
-      const property = await UserModel.aggregate([
-        {
-          $unwind: {
-            path: "$favouritePropertiesId",
-          },
-        },
-        {
-          $match: {
-            favouritePropertiesId: id,
-          },
-        },
-      ]);
-      return property;
-    } catch (e) {
       throw e;
     }
   }

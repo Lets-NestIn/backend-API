@@ -389,7 +389,6 @@ const changePasswordHelper = async (options) => {
 
 const getUserInfoHelper = async (token) => {
   try {
-    console.log("token", token);
     token.userId !== token.reqUserId
       ? (() => {
           throw message.error.INVALID_USER;
@@ -463,12 +462,8 @@ let generateNewTokens = async (options) => {
   }
 };
 
-const usersList = async (options) => {
+const usersList = async () => {
   try {
-    console.log("options", options);
-    if (options !== "ADMIN") {
-      throw message.error.forbidden;
-    }
     const userInfo = await dbInstance.findall(COLLECTIONS.USER_COLLECTION);
     if (userInfo.length > 1) {
       return {
@@ -487,6 +482,27 @@ const usersList = async (options) => {
   }
 };
 
+const getListOfUsersByPropertyIdHelper = async (propertyId) => {
+  try {
+    const userInfo = await dbInstance.getUsersByPropertyId(
+      COLLECTIONS.USER_COLLECTION,
+      // { _id: new mongoose.Types.ObjectId(propertyId) }
+      propertyId
+    );
+
+    !userInfo
+      ? (() => {
+          throw message.error.USER_NOT_FOUND;
+        })()
+      : null;
+
+    return userInfo;
+  } catch (e) {
+    logger.error("userAuthHelper------>GetListOfUsersByPropertyIdHelper", e);
+    throw e;
+  }
+};
+
 module.exports = {
   registerUser,
   userLogin,
@@ -498,4 +514,5 @@ module.exports = {
   generateNewTokens,
   usersList,
   updateUser,
+  getListOfUsersByPropertyIdHelper,
 };

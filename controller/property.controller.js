@@ -120,30 +120,10 @@ const updateProperty = async (req, res) => {
   }
 };
 
-const getWishlistPropertyById = async (req, res) => {
-  try {
-    let options = await dataValidator.validateGetPropertyById(req.params);
-    const response = await dbHelperProperty.getWishlistPropertyById(options);
-
-    return _handleResponseWithMessage(
-      req,
-      res,
-      null,
-      "Properties wishlist fetched successfully",
-      response,
-      200
-    );
-  } catch (e) {
-    logger.error("ERROR ::: get all property ::: ", e);
-    return _handleResponse(req, res, e, null);
-  }
-};
-
 module.exports = {
   registerProperty,
   getAllProperty,
   getPropertyById,
   deletePropertyById,
   updateProperty,
-  getWishlistPropertyById,
 };
