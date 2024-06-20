@@ -4,7 +4,7 @@ const { COLLECTIONS } = require("../config/constant");
 const logger = require("loglevel");
 const message = require("../config/messages");
 const constant = require("../config/constant");
-const { fileUpload } = require("../helper/helperFunction");
+const { fileUpload, invokeLambda } = require("../helper/helperFunction");
 const { default: mongoose } = require("mongoose");
 const { UserModel } = require("../models/user");
 const { ObjectId } = mongoose.Types;
@@ -190,6 +190,16 @@ const updateProperty = async (propertyId, options) => {
       { _id: propertyId },
       propertyObj
     );
+
+    console.log("propertyObj=======>", propertyObj);
+
+    const eventPayload = {
+      body: JSON.stringify({
+        recipientEmails: ["daljeet.kumar@kibalabs.in"],
+        updatedFields: propertyObj,
+      }),
+    };
+    await invokeLambda(eventPayload);
 
     if (!response) {
       throw new Error("Property not found");

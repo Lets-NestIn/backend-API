@@ -66,7 +66,7 @@ const fileUpload = async (images) => {
         const uploadPromise = new Promise((resolve, reject) => {
           s3.upload(params, (err, data) => {
             if (err) {
-              logger.warn("Error uploading to S3:", err);
+              logger.error("Error uploading to S3:", err);
               reject(err);
               return;
             }
@@ -87,9 +87,35 @@ const fileUpload = async (images) => {
   }
 };
 
+// Set the region of your Lambda function
+AWS.config.update({
+  accessKeyId: constant.AWS_CREDENTIALS.ACCESS_KEY_ID,
+  secretAccessKey: constant.AWS_CREDENTIALS.SECRET_ACCESS_KEY,
+  region: constant.AWS_CREDENTIALS.REGION,
+});
+
+const invokeLambda = async (eventPayload) => {
+  const lambda = new AWS.Lambda();
+  const params = {
+    FunctionName: "realestate-sendmail",
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify(eventPayload),
+  };
+
+  try {
+    const result = await lambda.invoke(params).promise();
+    logger.info("Lambda response:", result);
+    return JSON.parse(result.Payload);
+  } catch (error) {
+    logger.warn("Error invoking Lambda function:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   fileUpload,
   generatePasswordHash,
   comparePasswordHash,
   isPasswordStrong,
+  invokeLambda,
 };
