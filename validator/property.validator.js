@@ -124,4 +124,22 @@ module.exports = {
 
     return queryParams;
   },
+
+  validateCalcPrice: async function (queryParams) {
+    const v = new Validator(queryParams, {
+      initialPayment: "numeric|min:1",
+      taxRate: "numeric|min:1",
+      loanAmount: "numeric|min:1",
+      loanTermYears: "numeric|min:1",
+      interestRate: "numeric|min:1",
+    });
+
+    const matched = await v.check();
+
+    if (!matched) {
+      throw Object.values(v.errors)[0].message;
+    }
+
+    return queryParams;
+  },
 };

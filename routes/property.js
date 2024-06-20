@@ -13,6 +13,8 @@ router.post(
   uploads.any(),
   propertyController.registerProperty
 );
+router.post("/calculate", propertyController.calculatePrice);
+
 router.get("/property", propertyController.getAllProperty);
 router.get("/property/:_id", propertyController.getPropertyById);
 router.delete(
