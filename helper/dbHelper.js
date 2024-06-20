@@ -5,6 +5,7 @@ const { COLLECTIONS } = require("../config/constant");
 
 const message = require("../config/messages");
 const { PropertyModel } = require("../models/property");
+const { UserModel } = require("../models/user");
 
 require("dotenv").config();
 
@@ -35,6 +36,9 @@ class DbHelper {
         case COLLECTIONS.PROPERTY_COLLECTION:
           modelInstance = new PropertyModel(docObj);
           break;
+        case COLLECTIONS.USER_COLLECTION:
+          modelInstance = new UserModel(docObj);
+          break;
         default:
           throw message.error.INVALID_COLLECTION_NAME;
       }
@@ -52,6 +56,9 @@ class DbHelper {
       switch (collection) {
         case COLLECTIONS.PROPERTY_COLLECTION:
           Model = PropertyModel;
+          break;
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
           break;
         default:
           throw message.error.INVALID_COLLECTION_NAME;
@@ -72,6 +79,9 @@ class DbHelper {
       switch (collection) {
         case COLLECTIONS.PROPERTY_COLLECTION:
           Model = PropertyModel;
+          break;
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
           break;
         default:
           throw message.error.INVALID_COLLECTION_NAME;
@@ -94,6 +104,10 @@ class DbHelper {
           Model = PropertyModel;
           break;
 
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
+          break;
+
         default:
           throw message.error.INVALID_COLLECTION_NAME;
       }
@@ -113,6 +127,9 @@ class DbHelper {
         case COLLECTIONS.PROPERTY_COLLECTION:
           Model = PropertyModel;
           break;
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
+          break;
         default:
           throw message.error.INVALID_COLLECTION_NAME;
       }
@@ -131,6 +148,9 @@ class DbHelper {
       switch (collection) {
         case COLLECTIONS.PROPERTY_COLLECTION:
           Model = PropertyModel;
+          break;
+        case COLLECTIONS.USER_COLLECTION:
+          Model = UserModel;
           break;
         default:
           throw message.error.INVALID_COLLECTION_NAME;

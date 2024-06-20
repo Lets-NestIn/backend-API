@@ -6,7 +6,11 @@ const message = require("../config/messages");
 
 const registerProperty = async (req, res) => {
   try {
+    const tokenvalue = req.header("Authorization");
+    const decoded = jwt_decoder.jwtDecode(tokenvalue);
     let options = await dataValidator.validateProperty(req.body);
+    options.userId = decoded.userId;
+    options.role = decoded.role;
     options.images = req.files.filter(
       ({ fieldname }) => fieldname === "images"
     );
@@ -30,7 +34,7 @@ const registerProperty = async (req, res) => {
 const getAllProperty = async (req, res) => {
   try {
     let options = await dataValidator.validateGetAllProperties(req.query);
-    const response = await dbHelperProperty.getAllProperty();
+    const response = await dbHelperProperty.getAllProperty(options);
 
     return _handleResponseWithMessage(
       req,
@@ -67,7 +71,11 @@ const getPropertyById = async (req, res) => {
 
 const deletePropertyById = async (req, res) => {
   try {
+    const tokenvalue = req.header("Authorization");
+    const decoded = jwt_decoder.jwtDecode(tokenvalue);
     let options = await dataValidator.validateDeleteProperty(req.params);
+    options.userId = decoded.userId;
+    options.role = decoded.role;
     const response = await dbHelperProperty.deleteProperty(options);
 
     return _handleResponseWithMessage(
@@ -86,8 +94,12 @@ const deletePropertyById = async (req, res) => {
 
 const updateProperty = async (req, res) => {
   try {
+    const tokenvalue = req.header("Authorization");
+    const decoded = jwt_decoder.jwtDecode(tokenvalue);
     const propertyId = req.params.propertyId;
     let options = await dataValidator.validateUpdateProperty(req.body);
+    options.userId = decoded.userId;
+    options.role = decoded.role;
     options.images = req.files.filter(
       ({ fieldname }) => fieldname === "images"
     );
