@@ -38,6 +38,7 @@ module.exports = {
       lastName: "string|maxLength:30",
       phoneNumber: "numeric",
       favouritePropertiesId: "array",
+      favouritePropertiesKey: "boolean",
     });
 
     v.addPostRule((provider) => {

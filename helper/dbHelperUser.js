@@ -155,23 +155,62 @@ const updateUser = async (userId, options) => {
       address: options.address,
       profilePicture: options.profilePicture,
     };
-
-    const response = await dbInstance.updateDocument(
-      COLLECTIONS.USER_COLLECTION,
-      { _id: userId },
-      {
-        $set: {
-          firstName: options.firstName,
-          lastName: options.lastName,
-          phoneNumber: options.phoneNumber,
-          address: options.address,
-          profilePicture: options.profilePicture,
-        },
-        $push: {
-          favouritePropertiesId: { $each: options.favouritePropertiesId },
-        },
-      }
-    );
+    let response;
+    if (
+      options.favouritePropertiesKey === true ||
+      options.favouritePropertiesKey === "true"
+    ) {
+      response = await dbInstance.updateDocument(
+        COLLECTIONS.USER_COLLECTION,
+        { _id: userId },
+        {
+          $set: {
+            firstName: options.firstName,
+            lastName: options.lastName,
+            phoneNumber: options.phoneNumber,
+            address: options.address,
+            profilePicture: options.profilePicture,
+          },
+          $push: {
+            favouritePropertiesId: { $each: options.favouritePropertiesId },
+          },
+        }
+      );
+    } else if (
+      options.favouritePropertiesKey === false ||
+      options.favouritePropertiesKey === "false"
+    ) {
+      response = await dbInstance.updateDocument(
+        COLLECTIONS.USER_COLLECTION,
+        { _id: userId },
+        {
+          $set: {
+            firstName: options.firstName,
+            lastName: options.lastName,
+            phoneNumber: options.phoneNumber,
+            address: options.address,
+            profilePicture: options.profilePicture,
+          },
+          $pull: {
+            favouritePropertiesId: { $in: options.favouritePropertiesId },
+          },
+        }
+      );
+    } else {
+      response = await dbInstance.updateDocument(
+        COLLECTIONS.USER_COLLECTION,
+        { _id: userId },
+        {
+          $set: {
+            firstName: options.firstName,
+            lastName: options.lastName,
+            phoneNumber: options.phoneNumber,
+            address: options.address,
+            profilePicture: options.profilePicture,
+          },
+        }
+      );
+    }
 
     if (!response) {
       throw new Error("Property not found");
