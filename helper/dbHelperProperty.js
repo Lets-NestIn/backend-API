@@ -189,11 +189,17 @@ const updateProperty = async (propertyId, options) => {
       propertyObj
     );
 
-    console.log("propertyObj=======>", propertyObj);
+    const userInfo = await dbInstance.getUsersByPropertyId(
+      COLLECTIONS.USER_COLLECTION,
+      // { _id: new mongoose.Types.ObjectId(propertyId) }
+      propertyId
+    );
+
+    const userEmail = userInfo.map((data) => data.email);
 
     const eventPayload = {
       body: JSON.stringify({
-        recipientEmails: ["daljeet.kumar@kibalabs.in"],
+        recipientEmails: userEmail,
         updatedFields: propertyObj,
       }),
     };

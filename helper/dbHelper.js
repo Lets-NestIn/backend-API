@@ -75,7 +75,6 @@ class DbHelper {
 
   async getUsersByPropertyId(collection, id) {
     try {
-      console.log("id=========>", id);
       let Model;
       switch (collection) {
         case COLLECTIONS.USER_COLLECTION:
@@ -88,9 +87,8 @@ class DbHelper {
       await this.connect();
 
       const response = await Model.find({
-        favouritePropertiesId: { $in: id._id },
+        favouritePropertiesId: { $in: id },
       });
-      console.log("response==========>", response);
 
       return response;
     } catch (e) {

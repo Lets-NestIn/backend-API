@@ -447,7 +447,8 @@ const getListOfUsersByPropertyIdHelper = async (propertyId) => {
   try {
     const userInfo = await dbInstance.getUsersByPropertyId(
       COLLECTIONS.USER_COLLECTION,
-      { _id: new mongoose.Types.ObjectId(propertyId) }
+      // { _id: new mongoose.Types.ObjectId(propertyId) }
+      propertyId
     );
 
     !userInfo
