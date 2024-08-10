@@ -1,0 +1,68 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title User Verified Successfully
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        width: 90%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .card-header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 20px;
+        font-size: 1.5em;
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .card-footer {
+        background-color: #f1f1f1;
+        padding: 20px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        font-size: 1em;
+      }
+      .button:hover {
+        background-color: #45a049;
+      }
+  body
+    .container
+      .card
+        .card-header
+          h1 Verification Successful!
+        .card-body
+          p Congratulations, #{username}! This account has been successfully verified.
+          p He/She can now log in and start using our services.
+        .card-footer
+          a.button(href='http://dev-railalert-webui.s3-website.ap-south-1.amazonaws.com/#/notifications/toasts') Log In

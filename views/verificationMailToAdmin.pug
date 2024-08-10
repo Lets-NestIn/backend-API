@@ -1,0 +1,68 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Verify User Registration
+    style.
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+      }
+      .container {
+          width: 100%;
+          max-width: 600px;
+          margin: 0 auto;
+          background-color: #ffffff;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          overflow: hidden;
+      }
+      .header {
+          background-color: #4CAF50;
+          color: white;
+          padding: 20px;
+          text-align: center;
+      }
+      .content {
+          padding: 20px;
+      }
+      .content p {
+          line-height: 1.6;
+      }
+      .content .details {
+          margin-bottom: 20px;
+      }
+      .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          color: white;
+          background-color: #4CAF50;
+          text-decoration: none;
+          border-radius: 5px;
+      }
+      .footer {
+          background-color: #f4f4f4;
+          color: #888888;
+          text-align: center;
+          padding: 10px;
+          font-size: 12px;
+      }
+  body
+    .container
+      .header
+        h2 New User Registration
+      .content
+        p A new user has registered with the following details:
+        .details
+          p #[strong Name:] #{userName}
+          p #[strong Email:] #{userEmail}
+          p #[strong Mobile Number:] #{mobileNumber}
+          p #[strong EmployeeId:] #{employeeId}
+        p Please click the button below to verify this user:
+        a.button(href=verificationLink) Verify User
+      .footer
+        p &copy; 2024 Your Company. All rights reserved.

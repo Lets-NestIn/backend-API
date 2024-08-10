@@ -1,0 +1,53 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Welcome to Our Service
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+      }
+      .content {
+        padding: 20px;
+      }
+      .footer {
+        background-color: #f1f1f1;
+        color: #333;
+        text-align: center;
+        padding: 10px 0;
+        border-radius: 0 0 10px 10px;
+        margin-top: 20px;
+      }
+  body
+    .container
+      .header
+        h1 Welcome to Our Service
+      .content
+        p Hi #{username},
+        p Thank you for joining our service. Here are your login details:
+        ul
+          li Username: #{useremail}
+          li Password: #{password}
+        p Please keep this information safe and do not share it with anyone.
+        p We hope you enjoy using our service!
+      .footer
+        p &copy; 2024 Our Service. All rights reserved.
